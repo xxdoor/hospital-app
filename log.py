@@ -16,6 +16,7 @@ class Log(object):
         :return: 返回console logger
         """
         logger = logging.getLogger(name)
+        logger.setLevel(self.level)
         console_handler = logging.StreamHandler()
         formatter = logging.Formatter(fmt='%(asctime)s in %(funcName)s: %(levelname)s '
                                         '%(message)s', datefmt='%m-%d %H:%M:%S')

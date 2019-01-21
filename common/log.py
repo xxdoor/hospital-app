@@ -18,7 +18,7 @@ class Log(object):
         logger = logging.getLogger(name)
         logger.setLevel(self.level)
         console_handler = logging.StreamHandler()
-        formatter = logging.Formatter(fmt='%(asctime)s in %(funcName)s: %(levelname)s '
+        formatter = logging.Formatter(fmt='%(asctime)s: %(levelname)s '
                                         '%(message)s', datefmt='%m-%d %H:%M:%S')
         console_handler.setFormatter(formatter)
         console_handler.setLevel(self.level)

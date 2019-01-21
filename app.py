@@ -1,17 +1,35 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
+# TODO 去掉原生日志
 from flask_api import FlaskAPI
+from flask_api import status
 from flask import request
 import hashlib
+import flask
 
-import readConfig
+from common import readConfig, rest_log
 
 app = FlaskAPI(__name__)
+log_kit = rest_log.RestLog()
+app.before_request(log_kit.log_request)
+
+
+def make_response(content, code=status.HTTP_200_OK):
+    """
+    覆盖原方法，用来打日志
+    :param content:
+    :param code:
+    :return:
+    """
+    response = flask.make_response(content, code)
+    log_kit.log_response(flask.request, response)
+    return response
 
 
 @app.route('/')
 def hello_world():
-    return 'Hello World!'
+    response = make_response('Hello World!')
+    return response
 
 
 @app.route('/wx')
@@ -38,8 +56,9 @@ def verify_wx():
         content = {'echostr': echostr}
     else:
         content = 'Signature error!'
-    app.logger.info('Return %s' % content)
-    return content
+    response = make_response(content, status.HTTP_200_OK)
+    # response, status, headers
+    return response
 
 
 if __name__ == '__main__':

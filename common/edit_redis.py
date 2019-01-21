@@ -1,11 +1,9 @@
 #!/bin/env python
 # -*- coding:utf-8 -*-
-import time
 
 import redis
 
-import readConfig
-import log
+from common import log, readConfig
 
 
 class EditRedis(object):

@@ -3,7 +3,8 @@
 
 import redis
 
-from common import log, readConfig
+import log
+import readConfig
 
 
 class EditRedis(object):

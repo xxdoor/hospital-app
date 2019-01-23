@@ -4,7 +4,7 @@
 import flask
 from requests import Response
 
-from common import log
+import log
 
 
 class RestLog(object):

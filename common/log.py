@@ -4,7 +4,7 @@ import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
 
-from common import readConfig
+import readConfig
 
 class Log(object):
     """

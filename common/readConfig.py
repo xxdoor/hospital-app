@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 from configobj import ConfigObj
 
-from common import log
+import log
 
 
 class ReadConfig(object):

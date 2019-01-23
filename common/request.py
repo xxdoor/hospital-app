@@ -3,7 +3,7 @@
 # 使用requests库做HTTP请求
 import requests
 
-from common import rest_log
+import rest_log
 
 
 def request(url, method='GET', params=None, headers=None, body=None):

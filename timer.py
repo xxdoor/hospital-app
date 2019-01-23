@@ -1,0 +1,50 @@
+#!/bin/env python
+# -*- coding:utf-8 -*-
+# 定时获取并更新redis中的accessToken
+import threading
+
+from common import edit_redis
+from common import readConfig
+from common import log
+from common import request
+
+
+class Timer(object):
+	""" 定时器类"""
+	def __init__(self, interval):
+		"""
+		:param interval: 定时器间隔(s)
+		"""
+		self.interval = interval
+		self.redis = edit_redis.EditRedis()
+		self.cf = readConfig.ReadConfig()
+		self.logger = log.Log().get_update_logger()
+
+	def get_access_token(self):
+		""" 获取accessToken """
+		url = self.cf.read('url', 'wx')
+		method = 'GET'
+		params = {
+			'grant_type': 'client_credential',
+			'appid': self.cf.read('app_id'),
+			'secret': self.cf.read('app_secret')
+		}
+		result = request.request(url, method, params=params)
+
+	def start(self):
+		"""
+		执行定时任务
+		:return:
+		"""
+		global timer
+		self.get_access_token()
+		timer = threading.Timer(self.interval, self.start)
+		timer.start()
+
+
+if __name__ == '__main__':
+	# 更新周期
+	interval = 110 * 60
+	timer_kit = Timer(interval)
+	timer = threading.Timer(1, timer_kit.start)
+	timer.start()

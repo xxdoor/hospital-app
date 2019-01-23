@@ -16,7 +16,7 @@ app.before_request(log_kit.log_request)
 
 def make_response(content, code=status.HTTP_200_OK):
     """
-    覆盖原方法，用来打日志
+    覆盖原方法，用来打日志，并构造返回内容
     :param content:
     :param code:
     :return:

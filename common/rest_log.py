@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 # 用来为RESTFUL请求打日志
 import flask
+from requests import Response
 
 from common import log
 
@@ -41,5 +42,29 @@ class RestLog(object):
 		data = response.data
 		coming_url = request.url
 		self.logger.debug('%s <==== [status]: %s, [response]: %s' % (coming_url, status, data))
+
+	def log_http_request(self, url, method, params=None, headers=None, body=None):
+		"""
+		为HTTP请求打日志
+		:param url:
+		:param method:
+		:param params:
+		:param headers:
+		:param body:
+		:return:
+		"""
+		self.logger.debug('====> %s, [method]: %s, [params]: %s, [headers]: %s, [body]: %s'
+		                  % (url, method, params, headers, body))
+
+	def log_http_response(self, request_url, response):
+		"""
+		为HTTP应答打日志
+		:param response:
+		:return:
+		"""
+		if isinstance(response, Response):
+			self.logger.debug('<==== %s [status]: %s, [content]: %s' % (request_url, response.status_code, response.json()))
+		else:
+			self.logger.error('%s <==== [error]: %s' % (request_url, response))
 
 

@@ -47,8 +47,8 @@ class Timer(object):
 
 
 if __name__ == '__main__':
-	# 更新周期
-	interval = 110 * 60
+	# 更新周期: 100min
+	interval = 100 * 60
 	timer_kit = Timer(interval)
 	timer = threading.Timer(1, timer_kit.start)
 	timer.start()

@@ -42,7 +42,7 @@ def verify_wx():
     kvs = {}
     kvs['timestamp'] = params.get('timestamp')
     kvs['nonce'] = params.get('nonce')
-    kvs['token'] = readConfig.ReadConfig(env).read('token')
+    kvs['token'] = readConfig.ReadConfig().read('token')
     signature = params.get('signature')
     echostr = params.get('echostr')
 
@@ -63,4 +63,4 @@ def verify_wx():
 
 
 if __name__ == '__main__':
-    app.run(port=5000, host='127.0.0.1', debug=True)
+    app.run(port=8888, host='127.0.0.1', debug=True)

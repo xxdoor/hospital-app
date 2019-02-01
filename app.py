@@ -10,8 +10,9 @@ import flask
 
 from common import readConfig, rest_log
 
+env = "test"
 app = FlaskAPI(__name__)
-log_kit = rest_log.RestLog()
+log_kit = rest_log.RestLog(env)
 app.before_request(log_kit.log_request)
 
 
@@ -42,7 +43,7 @@ def verify_wx():
     kvs = {}
     kvs['timestamp'] = params.get('timestamp')
     kvs['nonce'] = params.get('nonce')
-    kvs['token'] = readConfig.ReadConfig().read('token')
+    kvs['token'] = readConfig.ReadConfig(env).read('token')
     signature = params.get('signature')
     echostr = params.get('echostr')
 

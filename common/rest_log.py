@@ -11,8 +11,8 @@ class RestLog(object):
 	"""
 	HTTP请求和响应打日志类
 	"""
-	def __init__(self):
-		self.logger = log.Log().get_logger(__name__)
+	def __init__(self, env):
+		self.logger = log.Log(env).get_logger(__name__)
 
 	def log_request(self):
 		"""

@@ -11,14 +11,15 @@ from common import request
 
 class Timer(object):
 	""" 定时器类"""
-	def __init__(self, interval):
+	def __init__(self, interval, env):
 		"""
 		:param interval: 定时器间隔(s)
+		:param env: 环境(online、test)
 		"""
 		self.interval = interval
-		self.redis = edit_redis.EditRedis()
-		self.cf = readConfig.ReadConfig()
-		self.logger = log.Log().get_update_logger()
+		self.redis = edit_redis.EditRedis(env)
+		self.cf = readConfig.ReadConfig(env)
+		self.logger = log.Log(env).get_update_logger()
 
 	def get_access_token(self):
 		""" 获取accessToken """
@@ -45,6 +46,6 @@ class Timer(object):
 if __name__ == '__main__':
 	# 更新周期
 	interval = 110 * 60
-	timer_kit = Timer(interval)
+	timer_kit = Timer(interval, "test")
 	timer = threading.Timer(1, timer_kit.start)
 	timer.start()

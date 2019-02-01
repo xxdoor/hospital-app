@@ -29,9 +29,8 @@ class EditRedis(object):
 		:return: True/False
 		"""
 		key = self.redis_key['WX_ACCESSTOKEN']
-		# 100min过期
-		duration = 10
-		self.logger.debug('Redis set %s - %s' % (key, access_token))
+		duration = self.redis_key['duration']
+		self.logger.debug('Redis set [key]:%s, [value]:%s, [duration]:%ss' % (key, access_token, duration))
 		return self.redis.setex(key, duration, access_token)
 
 	def get_access_token(self):

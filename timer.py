@@ -31,6 +31,9 @@ class Timer(object):
 			'secret': self.cf.read('app_secret')
 		}
 		result = request.request(url, method, params=params)
+		text = result.json()
+		access_token = text['access_token']
+		self.redis.set_access_token(access_token)
 
 	def start(self):
 		"""

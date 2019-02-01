@@ -1,5 +1,6 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
+import os
 from configobj import ConfigObj
 
 import log
@@ -11,7 +12,7 @@ class ReadConfig(object):
     """
 
 	def __init__(self):
-		self.file = './config.ini'
+		self.file = os.path.join(os.path.dirname(__file__), "../config.ini")
 		self.cf = ConfigObj(self.file)
 		self.logger = log.Log().get_logger(__name__)
 

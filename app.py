@@ -1,6 +1,7 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
 # TODO 去掉原生日志
+# TODO 定时器有毛病啊。。。。。
 from flask_api import FlaskAPI
 from flask_api import status
 from flask import request

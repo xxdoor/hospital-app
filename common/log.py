@@ -4,7 +4,8 @@ import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
 
-import readConfig
+import configobj
+
 
 class Log(object):
     """
@@ -12,7 +13,9 @@ class Log(object):
     """
     def __init__(self):
         self.level = logging.DEBUG
-        cf = readConfig.ReadConfig().read_section('log')
+        # 配置文件
+        file = os.path.join(os.path.dirname(__file__), "../config.ini")
+        cf = configobj.ConfigObj(file)
         self.common_path = cf['common']
         self.update_path = cf['update']
 

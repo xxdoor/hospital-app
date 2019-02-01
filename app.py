@@ -10,9 +10,8 @@ import flask
 
 from common import readConfig, rest_log
 
-env = "test"
 app = FlaskAPI(__name__)
-log_kit = rest_log.RestLog(env)
+log_kit = rest_log.RestLog()
 app.before_request(log_kit.log_request)
 
 

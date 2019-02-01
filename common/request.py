@@ -6,9 +6,9 @@ import requests
 import rest_log
 
 
-def request(url, method='GET', params=None, headers=None, body=None, env="online"):
+def request(url, method='GET', params=None, headers=None, body=None):
 	""" 做请求并打日志 """
-	logger_kit = rest_log.RestLog(env)
+	logger_kit = rest_log.RestLog()
 	try:
 		result = requests.request(method, url, params=params, headers=headers, data=body)
 	except requests.exceptions as e:

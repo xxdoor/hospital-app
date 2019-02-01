@@ -11,11 +11,11 @@ class Log(object):
     """
     log配置文件
     """
-    def __init__(self, env):
+    def __init__(self):
         self.level = logging.DEBUG
         # 配置文件
         file = os.path.join(os.path.dirname(__file__), "../config.ini")
-        cf = configobj.ConfigObj(file)["log"][env]
+        cf = configobj.ConfigObj(file)["log"]
         self.common_path = cf['common']
         self.update_path = cf['update']
 

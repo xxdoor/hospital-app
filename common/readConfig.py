@@ -11,10 +11,10 @@ class ReadConfig(object):
     读取配置文件
     """
 
-	def __init__(self, env):
+	def __init__(self):
 		self.file = os.path.join(os.path.dirname(__file__), "../config.ini")
 		self.cf = ConfigObj(self.file)
-		self.logger = log.Log(env).get_logger(__name__)
+		self.logger = log.Log().get_logger(__name__)
 
 	def read(self, key, section='app'):
 		"""

@@ -1,5 +1,9 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 from flask_api import FlaskAPI
 from flask_api import status
 from flask import request
@@ -75,7 +79,8 @@ def get_access_token():
     content = {
         'access_token': access_token
     }
-    make_response(content, status.HTTP_200_OK)
+    response = make_response(content, status.HTTP_200_OK)
+    return response
 
 
 if __name__ == '__main__':

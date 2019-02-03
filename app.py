@@ -39,40 +39,37 @@ def hello_world():
     return response
 
 
-@app.route('/wx')
+@app.route('/wx', methods=['GET', 'POST'])
 def verify_wx():
     """
-    微信校验接口
+    微信校验接口（GET） & 用户点击菜单事件推送接口（POST）
     """
-    params = request.args
-    timestamp = params.get('timestamp')
-    nonce = params.get('nonce')
-    token = readConfig.ReadConfig().read('token')
-    signature = params.get('signature')
-    echostr = params.get('echostr')
+    if request.method == 'GET':
+        params = request.args
+        timestamp = params.get('timestamp')
+        nonce = params.get('nonce')
+        token = readConfig.ReadConfig().read('token')
+        signature = params.get('signature')
+        echostr = params.get('echostr')
 
-    # 开始校验
-    keys_list = [timestamp, nonce, token]
-    keys_list = sorted(keys_list)
-    raw_str = ''
-    for item in keys_list:
-        raw_str += item
-    hash_str = hashlib.sha1(raw_str).hexdigest()
-    if signature == hash_str:
-        content = echostr
-        response = make_response(content, status.HTTP_200_OK)
+        # 开始校验
+        keys_list = [timestamp, nonce, token]
+        keys_list = sorted(keys_list)
+        raw_str = ''
+        for item in keys_list:
+            raw_str += item
+        hash_str = hashlib.sha1(raw_str).hexdigest()
+        if signature == hash_str:
+            content = echostr
+            response = make_response(content, status.HTTP_200_OK)
+        else:
+            content = 'Signature error!'
+            response = make_response(content, status.HTTP_406_NOT_ACCEPTABLE)
+        # response, status, headers
+        return response
     else:
-        content = 'Signature error!'
-        response = make_response(content, status.HTTP_406_NOT_ACCEPTABLE)
-    # response, status, headers
-    return response
-
-
-@app.route('wx', methods=['POST'])
-def event_access():
-    """ 记录菜单点击事件 """
-    response = make_response('Ok')
-    return response
+        response = make_response('Ok')
+        return response
 
 
 @app.route('/access_token')

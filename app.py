@@ -53,7 +53,7 @@ def verify_wx():
         raw_str += item
     hash_str = hashlib.sha1(raw_str).hexdigest()
     if signature == hash_str:
-        content = {'echostr': echostr}
+        content = echostr
         response = make_response(content, status.HTTP_200_OK)
     else:
         content = 'Signature error!'

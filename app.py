@@ -68,6 +68,13 @@ def verify_wx():
     return response
 
 
+@app.route('wx', methods=['POST'])
+def event_access():
+    """ 记录菜单点击事件 """
+    response = make_response('Ok')
+    return response
+
+
 @app.route('/access_token')
 def get_access_token():
     """

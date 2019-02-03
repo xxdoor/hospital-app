@@ -6,7 +6,9 @@ from flask import request
 import hashlib
 import flask
 
-from common import readConfig, rest_log
+from common import readConfig
+from common import rest_log
+from common import edit_redis
 # TODO 添加菜单
 # TODO 重定向URI
 
@@ -60,6 +62,20 @@ def verify_wx():
         response = make_response(content, status.HTTP_406_NOT_ACCEPTABLE)
     # response, status, headers
     return response
+
+
+@app.route('/access_token')
+def get_access_token():
+    """
+    获取当前wx access_token
+    :return:
+    """
+    redis = edit_redis.EditRedis()
+    access_token = redis.get_access_token()
+    content = {
+        'access_token': access_token
+    }
+    make_response(content, status.HTTP_200_OK)
 
 
 if __name__ == '__main__':

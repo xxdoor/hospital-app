@@ -1,7 +1,5 @@
 #!/bin/env python
 # -*- coding: utf-8 -*-
-# TODO 去掉原生日志
-# TODO 定时器有毛病啊。。。。。
 from flask_api import FlaskAPI
 from flask_api import status
 from flask import request
@@ -9,6 +7,8 @@ import hashlib
 import flask
 
 from common import readConfig, rest_log
+# TODO 添加菜单
+# TODO 重定向URI
 
 app = FlaskAPI(__name__)
 log_kit = rest_log.RestLog()
@@ -39,25 +39,25 @@ def verify_wx():
     微信校验接口
     """
     params = request.args
-    kvs = {}
-    kvs['timestamp'] = params.get('timestamp')
-    kvs['nonce'] = params.get('nonce')
-    kvs['token'] = readConfig.ReadConfig().read('token')
+    timestamp = params.get('timestamp')
+    nonce = params.get('nonce')
+    token = readConfig.ReadConfig().read('token')
     signature = params.get('signature')
     echostr = params.get('echostr')
 
     # 开始校验
-    keys_list = ['token', 'timestamp', 'nonce']
+    keys_list = [timestamp, nonce, token]
     keys_list = sorted(keys_list)
     raw_str = ''
-    for index in keys_list:
-        raw_str += kvs[index]
+    for item in keys_list:
+        raw_str += item
     hash_str = hashlib.sha1(raw_str).hexdigest()
     if signature == hash_str:
         content = {'echostr': echostr}
+        response = make_response(content, status.HTTP_200_OK)
     else:
         content = 'Signature error!'
-    response = make_response(content, status.HTTP_200_OK)
+        response = make_response(content, status.HTTP_406_NOT_ACCEPTABLE)
     # response, status, headers
     return response
 

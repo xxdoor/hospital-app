@@ -24,7 +24,11 @@ class RestLog(object):
 		url = request.base_url
 		method = request.method
 		args = request.args.to_dict()
-		form = request.data.to_dict()
+		try:
+			form = request.data.to_dict()
+		except Exception as e:
+			self.logger.error('Parse data in %s to dict error!' % url, str(e))
+			form = request.data
 		headers = request.headers
 		remote_addr = request.remote_addr
 		if method in ['GET', 'HEAD']:

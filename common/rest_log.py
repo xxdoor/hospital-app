@@ -27,7 +27,7 @@ class RestLog(object):
 		try:
 			form = request.data.to_dict()
 		except Exception as e:
-			self.logger.error('Parse data in %s to dict error!' % url, str(e))
+			self.logger.error('Parse data in %s to dict error: e' % url)
 			form = request.data
 		headers = request.headers
 		remote_addr = request.remote_addr

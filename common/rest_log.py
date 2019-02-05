@@ -3,6 +3,7 @@
 # 用来为RESTFUL请求打日志
 import flask
 from requests import Response
+import xml.dom.minidom as min
 
 import log
 
@@ -24,12 +25,11 @@ class RestLog(object):
 		url = request.base_url
 		method = request.method
 		args = request.args.to_dict()
-		try:
-			form = request.data.to_dict()
-		except Exception as e:
-			self.logger.error('Parse data in %s to dict error: e' % url)
-			form = request.data
 		headers = request.headers
+		if headers['Content-Type'] == 'text/xml':
+			form = min.parse(request.data)
+		else:
+			form = request.data.to_dict()
 		remote_addr = request.remote_addr
 		if method in ['GET', 'HEAD']:
 			self.logger.debug('%s ====> %s, [method]: %s, [args]: %s, [headers]: %s' % (remote_addr, url, method, args, headers))

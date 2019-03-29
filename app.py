@@ -3,6 +3,7 @@
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
+import json
 
 from flask_api import FlaskAPI
 from flask_api import status
@@ -96,8 +97,9 @@ def get_detail(id):
         "subTitle": u"副标题",
         "id": id
     }
+    data = json.dumps(data)
     return make_response(data)
 
 
 if __name__ == '__main__':
-    app.run(port=8888, host='127.0.0.1', debug=True)
+    app.run(port=8888, host='127.0.0.1', debug=False)

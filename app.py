@@ -90,8 +90,13 @@ def get_access_token():
     return response
 
 
-@app.route("/detail/<id>")
+@app.route("/api/detail/<id>")
 def get_detail(id):
+    """
+    根据id获取首页文案
+    :param id:
+    :return:
+    """
     data = {
         "title": u"标题",
         "subTitle": u"副标题",

@@ -6,6 +6,7 @@ sys.setdefaultencoding('utf8')
 
 from flask_api import FlaskAPI
 from flask_api import status
+from flask_cors import CORS
 from flask import request
 import hashlib
 import flask
@@ -17,6 +18,7 @@ from common import edit_redis
 # TODO 重定向URI
 
 app = FlaskAPI(__name__)
+CORS(app)
 log_kit = rest_log.RestLog()
 app.before_request(log_kit.log_request)
 
@@ -85,6 +87,16 @@ def get_access_token():
     }
     response = make_response(content, status.HTTP_200_OK)
     return response
+
+
+@app.route("/detail/<id>")
+def get_detail(id):
+    data = {
+        "title": u"标题",
+        "subTitle": u"副标题",
+        "id": id
+    }
+    return make_response(data)
 
 
 if __name__ == '__main__':

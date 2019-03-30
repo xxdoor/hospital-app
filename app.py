@@ -61,7 +61,10 @@ def verify_wx():
         keys_list = sorted(keys_list)
         raw_str = ''
         for item in keys_list:
-            raw_str += item
+            try:
+                raw_str += item
+            except TypeError:
+                continue
         hash_str = hashlib.sha1(raw_str).hexdigest()
         if signature == hash_str:
             content = echostr

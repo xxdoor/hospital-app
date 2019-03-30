@@ -25,7 +25,10 @@ class RestLog(object):
 		method = request.method
 		args = request.args.to_dict()
 		headers = request.headers
-		form = request.data.to_dict()
+		try:
+			form = request.data.to_dict()
+		except AttributeError:
+			form = request.data
 		remote_addr = request.remote_addr
 		if method in ['GET', 'HEAD']:
 			self.logger.debug('%s ====> %s, [method]: %s, [args]: %s, [headers]: %s' % (remote_addr, url, method, args, headers))

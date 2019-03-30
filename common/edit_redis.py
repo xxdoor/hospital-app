@@ -43,6 +43,28 @@ class EditRedis(object):
 		self.logger.debug('Redis get %s - %s' % (key, value))
 		return value
 
+	# 存入js_sdk_ticket
+	def set_js_ticket(self, ticket):
+		"""
+		设置js_ticket
+		:param ticket:
+		:return:
+		"""
+		key = self.redis_key['WX_TICKET']
+		duration = self.redis_key['duration']
+		self.logger.debug('Redis set [key]:%s, [value]:%s, [duration]:%ss' % (key, ticket, duration))
+		return self.redis.setex(key, duration, ticket)
+
+	def get_js_ticket(self):
+		"""
+		获取js_ticket
+		:return:
+		"""
+		key = self.redis_key['WX_TICKET']
+		value = self.redis.get(key)
+		self.logger.debug('Redis get %s - %s' % (key, value))
+		return value
+
 
 if __name__ == '__main__':
 	er = EditRedis()

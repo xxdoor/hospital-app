@@ -15,6 +15,7 @@ import flask
 from common import readConfig
 from common import rest_log
 from common import edit_redis
+from common import utils
 # TODO 添加菜单
 # TODO 重定向URI
 
@@ -103,6 +104,31 @@ def get_detail(id):
         "id": id
     }
     data = json.dumps(data)
+    return make_response(data)
+
+
+@app.route("/api/js_sdk")
+def get_sdk_params():
+    """
+    获取前端调用js_sdk的参数
+    :return:
+    """
+    # 获取ticket
+    redis = edit_redis.EditRedis()
+    ticket = redis.get_js_ticket()
+    # 生成参数
+    nonce = utils.get_nonce()
+    timestamp = utils.get_timestamp()
+    url = request.args.get("url")
+    raw_str = "jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s" % (ticket, nonce, timestamp, url)
+    hash_str = hashlib.sha1(raw_str).hexdigest()
+    # 返回内容
+    data = {
+        "appId": utils.get_app_id(),
+        "timestamp": timestamp,
+        "nonceStr": nonce,
+        "signature": hash_str
+    }
     return make_response(data)
 
 

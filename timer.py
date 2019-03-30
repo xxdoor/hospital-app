@@ -34,6 +34,23 @@ class Timer(object):
 		text = result.json()
 		access_token = text['access_token']
 		self.redis.set_access_token(access_token)
+		return access_token
+
+	def get_js_ticket(self, access_token):
+		"""
+		获取js_ticket
+		:return:
+		"""
+		url = self.cf.read('url', 'sdk_url')
+		method = 'GET'
+		params = {
+			"type": "jsapi",
+			"access_token": access_token
+		}
+		result = request.request(url, method, params=params)
+		text = result.json()
+		ticket = text["ticket"]
+		self.redis.set_js_ticket(ticket)
 
 	def start(self):
 		"""
@@ -41,7 +58,8 @@ class Timer(object):
 		:return:
 		"""
 		global timer
-		self.get_access_token()
+		access_token = self.get_access_token()
+		self.get_js_ticket(access_token)
 		timer = threading.Timer(self.interval, self.start)
 		timer.start()
 

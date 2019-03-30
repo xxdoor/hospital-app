@@ -107,7 +107,7 @@ def get_detail(id):
     return make_response(data)
 
 
-@app.route("/api/js_sdk")
+@app.route("/api/js_sdk", methods=['POST'])
 def get_sdk_params():
     """
     获取前端调用js_sdk的参数
@@ -119,7 +119,7 @@ def get_sdk_params():
     # 生成参数
     nonce = utils.get_nonce()
     timestamp = utils.get_timestamp()
-    url = request.args.get("url")
+    url = request.json.get("url")
     raw_str = "jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s" % (ticket, nonce, timestamp, url)
     hash_str = hashlib.sha1(raw_str).hexdigest()
     # 返回内容

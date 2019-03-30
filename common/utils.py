@@ -16,8 +16,8 @@ def get_nonce(length=12):
 	pool = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	pool_length = len(pool)
 	nonce = ""
-	for item in range(0, length-1):
-		index = random.randint(0, pool_length)
+	for item in range(0, length):
+		index = random.randint(0, pool_length-1)
 		nonce += pool[index]
 	return nonce
 

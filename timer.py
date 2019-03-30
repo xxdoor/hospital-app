@@ -41,7 +41,7 @@ class Timer(object):
 		获取js_ticket
 		:return:
 		"""
-		url = self.cf.read('url', 'sdk_url')
+		url = self.cf.read('sdk_url', 'wx')
 		method = 'GET'
 		params = {
 			"type": "jsapi",

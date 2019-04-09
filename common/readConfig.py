@@ -8,7 +8,7 @@ import log
 
 class ReadConfig(object):
 	"""
-    读取配置文件
+	读取配置文件
     """
 
 	def __init__(self):

@@ -16,6 +16,7 @@ from common import readConfig
 from common import rest_log
 from common import edit_redis
 from common import utils
+from common import mysqlUtils
 # TODO 添加菜单
 # TODO 重定向URI
 
@@ -101,9 +102,13 @@ def get_detail(id):
     :param id:
     :return:
     """
+    mysql_utils = mysqlUtils.MysqlUtils()
+    title_cmd = "SELECT title, subTitle FROM `page` WHERE name=%s" % id
+    title, subTitle = mysql_utils.execute("page", title_cmd)[0]
+
     data = {
-        "title": u"标题",
-        "subTitle": u"副标题",
+        "title": title,
+        "subTitle": subTitle,
         "id": id
     }
     data = json.dumps(data)

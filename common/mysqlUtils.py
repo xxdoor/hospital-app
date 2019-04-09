@@ -21,11 +21,10 @@ class MysqlUtils(object):
 		"""
 		mysql_config = self.cf.read_section("mysql")
 		host = mysql_config.get("host")
-		port = mysql_config.get("port")
 		user = mysql_config.get("user")
 		password = mysql_config.get("password")
 		try:
-			db = mysql.connect.connect(user=user, password=password, host=host, port=port, database=db)
+			db = mysql.connector.connect(user=user, password=password, host=host, database=db)
 		except mysql.connector.Error as err:
 			self.logger.error(err)
 

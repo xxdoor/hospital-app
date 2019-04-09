@@ -103,8 +103,8 @@ def get_detail(id):
     :return:
     """
     mysql_utils = mysqlUtils.MysqlUtils()
-    title_cmd = "SELECT title, subTitle FROM `page` WHERE name=%s" % id
-    title, subTitle = mysql_utils.execute("page", title_cmd)[0]
+    title_cmd = "SELECT title, subTitle FROM `page` WHERE name=\"" + id + "\";"
+    title, subTitle = mysql_utils.execute("hospital", title_cmd)[0]
 
     data = {
         "title": title,

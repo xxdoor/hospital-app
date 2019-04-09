@@ -40,7 +40,7 @@ class MysqlUtils(object):
 		cursor = db.cursor()
 		influence = cursor.execute(cmd)
 		values = cursor.fetchall()
-		cursor.commit()
+		db.commit()
 		cursor.close()
 		db.close()
 		self.logger.info("DB: %s, operation: %s, result: %s" % (db, cmd, influence))

@@ -108,7 +108,7 @@ def get_detail(id):
 
     # 拉取内容
     content_cmd = "SELECT path, sequence, title, subTitle, text FROM `content` WHERE " \
-                  "page_id = \"" + int(page_id) + "\";"
+                  "page_id = \"" + page_id + "\";"
     content = mysql_utils.execute("hospital", content_cmd)
     # 按照sequence排序
     sorted_content = sorted(content, key=lambda x: x[1])

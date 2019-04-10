@@ -43,7 +43,7 @@ class MysqlUtils(object):
 		db.commit()
 		cursor.close()
 		db.close()
-		self.logger.info("DB: %s, operation: %s, result: %s" % (db, cmd, influence))
+		self.logger.info("DB: %s, operation: %s, result: %s" % (db, cmd, values))
 		return values
 
 

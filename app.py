@@ -17,8 +17,7 @@ from common import rest_log
 from common import edit_redis
 from common import utils
 from common import mysqlUtils
-# TODO 添加菜单
-# TODO 重定向URI
+
 
 app = FlaskAPI(__name__)
 CORS(app)
@@ -102,14 +101,29 @@ def get_detail(id):
     :param id:
     :return:
     """
+    # 拉取title
     mysql_utils = mysqlUtils.MysqlUtils()
-    title_cmd = "SELECT title, subTitle FROM `page` WHERE name=\"" + id + "\";"
-    title, subTitle = mysql_utils.execute("hospital", title_cmd)[0]
+    title_cmd = "SELECT id, title, subTitle FROM `page` WHERE name=\"" + id + "\";"
+    page_id, title, subTitle = mysql_utils.execute("hospital", title_cmd)[0]
 
+    # 拉取内容
+    content_cmd = "SELECT path, sequence, title, subTitle, text FROM `content` WHERE " \
+                  "page_id = \"" + int(page_id) + "\";"
+    content = mysql_utils.execute("hospital", content_cmd)
+    # 按照sequence排序
+    sorted_content = sorted(content, key=lambda x: x[1])
+    res_content = []
+    keys = ["url", "sequence", "title", "subTitle", "text"]
+    # 拼接返回内容
+    for item in sorted_content:
+        dict_item = dict(map(lambda x,y: (x, y), keys, item))
+        dict_item["url"] = "http://127.0.0.1/api/resource" + dict_item["url"]
+        res_content.append(dict_item)
     data = {
         "title": title,
         "subTitle": subTitle,
-        "id": id
+        "id": id,
+        "content": res_content
     }
     data = json.dumps(data)
     return make_response(data)

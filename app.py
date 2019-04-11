@@ -114,10 +114,12 @@ def get_detail(id):
     sorted_content = sorted(content, key=lambda x: x[1])
     res_content = []
     keys = ["url", "sequence", "title", "subTitle", "text"]
+    # 当前服务host
+    host = readConfig.ReadConfig().read("host", section="service")
     # 拼接返回内容
     for item in sorted_content:
         dict_item = dict(map(lambda x,y: (x, y), keys, item))
-        dict_item["url"] = "http://127.0.0.1/api/resource" + dict_item["url"]
+        dict_item["url"] = "http://%s/api/resource" % host + dict_item["url"]
         res_content.append(dict_item)
     data = {
         "title": title,
@@ -152,6 +154,20 @@ def get_sdk_params():
         "signature": hash_str
     }
     return make_response(data)
+
+
+@app.route("/api/resource/<path:resource>", methods=["POST"])
+def get_resource(resource):
+    """
+    下载图片
+    :return:
+    """
+    # 资源base路径
+    base_path = readConfig.ReadConfig().read("base_path", section="pictures")
+    path = base_path + resource
+    with open(path, "rb") as fin:
+        img_stream = fin.read()
+    return make_response(img_stream)
 
 
 if __name__ == '__main__':

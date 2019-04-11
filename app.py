@@ -156,7 +156,7 @@ def get_sdk_params():
     return make_response(data)
 
 
-@app.route("/api/resource/<path:resource>", methods=["POST"])
+@app.route("/api/resource/<path:resource>", methods=["GET"])
 def get_resource(resource):
     """
     下载图片
@@ -164,10 +164,11 @@ def get_resource(resource):
     """
     # 资源base路径
     base_path = readConfig.ReadConfig().read("base_path", section="pictures")
-    path = base_path + resource
+    path = base_path + "/" + resource
     with open(path, "rb") as fin:
         img_stream = fin.read()
-    return make_response(img_stream)
+    image_type = "image/" + resource.split(".")[1]
+    return flask.send_file(img_stream, mimetype=image_type)
 
 
 if __name__ == '__main__':
